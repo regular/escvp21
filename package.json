@@ -1,0 +1,34 @@
+{
+  "name": "escvp21",
+  "version": "1.0.0",
+  "description": "Control your EPSON Projector via RS232 or USB",
+  "main": "index.js",
+  "bin": {
+    "escvp21": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jan Bölsche <jan@lagomorph.de> (http://regular.codes)",
+  "license": "MIT",
+  "dependencies": {
+    "carrier": "^0.3.0",
+    "commander": "^2.9.0",
+    "debug": "^2.2.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/regular/escvp21.git"
+  },
+  "keywords": [
+    "epson",
+    "projector",
+    "rs232",
+    "usb"
+  ],
+  "bugs": {
+    "url": "https://github.com/regular/escvp21/issues"
+  },
+  "homepage": "https://github.com/regular/escvp21#readme"
+}
