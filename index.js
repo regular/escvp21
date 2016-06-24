@@ -18,6 +18,7 @@ const args = [
 ];
 
 let queue = [
+    "ERR?",
     "SNO?",
     "PWR OFF",
     "LAMP?",
@@ -42,7 +43,11 @@ function disconnect() {
     com.stdin.write("~\x04");
 }
 
+var timer;
+
 carrier.carry(com.stdout, (line) => {
+    if (timer) clearInterval(timer);
+    timer = null;
     for(let response of line.split(':').slice(1)) {
         let currCommand = pending.shift();
         if (currCommand) {
@@ -72,5 +77,7 @@ com.on('close', (code) => {
     debug(`child process exited with code ${code}`);
 });
 
-debug('Sending <CR>');
-com.stdin.write("\r");
+timer = setInterval( ()=> {
+    debug('Sending <CR>');
+    com.stdin.write("\r");
+}, 2000);

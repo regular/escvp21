@@ -17,6 +17,10 @@ Usage
     -V, --version  output the version number
 ```
 
+Auto-Detect Projector Model
+---------------------------
+curl "http://www.epson.co.uk/gb/en/viewcon/corporatesite/modules/warranty_details/search?ajax=true&serial=<SERNO>" |json
+
 Examples
 --------
 
