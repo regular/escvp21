@@ -5,11 +5,18 @@ Preparation
 
 Install package `uucp` on the machine that is connected to the projector.
 
+Installation
+------------
+
+```
+npm i -g escvp21
+```
+
 Usage
 -----
 
 ```
-  Usage: index [options] <connect-command>
+  Usage: escvp21 [options] <connect-command>
 
   Options:
 
