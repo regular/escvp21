@@ -7,6 +7,8 @@ const debug = require('debug')('escvp21');
 const program = require('commander');
 const pkg = require(__dirname + '/package.json');
 
+const queryModel = require('./lib/query_model_name');
+
 program
     .version(pkg.version)
     .usage('[options] <connect-command>')
@@ -52,6 +54,21 @@ carrier.carry(com.stdout, (line) => {
         let currCommand = pending.shift();
         if (currCommand) {
             console.log(`response of ${currCommand}: ${response}`);
+            if (currCommand == "SNO?") {
+                var m = response.match(/SNO=(.*)$/);
+                if (m) {
+                    var sno = m[1];
+                    debug(`query model name for serial no ${sno}`);
+                    queryModel(sno, (err, data) => {
+                        debug('query response:');
+                        if (err) {
+                            console.log(`Model cannot be identified: ${err.message}`);
+                        } else {
+                            console.log(`Projector identified as ${data[0]}`);
+                        }
+                    });
+                }
+            }
         }
     }
 }, 'ascii', /\r/);
