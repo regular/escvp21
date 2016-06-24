@@ -12,6 +12,8 @@ const queryModel = require('./lib/query_model_name');
 program
     .version(pkg.version)
     .usage('[options] <connect-command>')
+    .option('-m, --model <model-name>',  'specify projctor model. Use \"auto\" to query REST API based on serial number. [auto]', 'auto')
+    .option('-p --power <on or off>', 'Turn on or shutdown projector', /^(on|off)$/i)
     .parse(process.argv);
 
 const command = "sh";
@@ -20,9 +22,14 @@ const args = [
 ];
 
 let queue = [
-    "ERR?",
-    "SNO?",
-    "PWR OFF",
+    "SNO?"
+];
+
+if (program.power) {
+    queue.push("PWR " + program.power.toUpperCase());
+}
+
+queue = queue.concat([
     "LAMP?",
     "LUMINANCE?",
     "BRIGHT?",
@@ -34,7 +41,7 @@ let queue = [
     "ASPECT?",
     "PWR?",
     "SOURCE?"
-];
+]);
 
 let pending = [];
 
@@ -54,7 +61,7 @@ carrier.carry(com.stdout, (line) => {
         let currCommand = pending.shift();
         if (currCommand) {
             console.log(`response of ${currCommand}: ${response}`);
-            if (currCommand == "SNO?") {
+            if (currCommand == "SNO?" && program.model == "auto") {
                 var m = response.match(/SNO=(.*)$/);
                 if (m) {
                     var sno = m[1];
@@ -96,5 +103,6 @@ com.on('close', (code) => {
 
 timer = setInterval( ()=> {
     debug('Sending <CR>');
+    process.stdout.write('.');
     com.stdin.write("\r");
 }, 2000);
