@@ -15,41 +15,42 @@ Usage
 
     -h, --help                output usage information
     -V, --version             output the version number
-    -m, --model [model-name]  specify projctor model. Use "auto" to query REST API based on serial number. [auto]
+    -m, --model <model-name>  specify projctor model. Use "auto" to query REST API based on serial number. [auto]
+    -p --power <on or off>    Turn on or shutdown projector
 
 ```
 
 Auto-Detect Projector Model
 ---------------------------
-if you specify "auto" as model name (that's the default), the program will use this URL to lookup the projector's model name based on its serial number.
-Privacy notice: The unique serial number of the device in question will be sent over the network as part of a URL.
+If you specify "auto" as model name (that's the default), the program will use a web service (see below) to lookup the projector's model name by its serial number.
+Privacy notice: The unique serial number of the device in question will be sent over the network as part of a URL via https.
 
-If you prefer to query the web service manually or the host computer where the projector is connected does not have Internet access, you can use the follow command:
+If you prefer to query the web service manually or the host computer where the projector is connected to does not have Internet access, you can use the following command:
 
 ```
-curl "http://www.epson.co.uk/gb/en/viewcon/corporatesite/modules/warranty_details/search?ajax=true&serial=<SERNO>" |json
+curl "https://www.epson.co.uk/gb/en/viewcon/corporatesite/modules/warranty_details/search?ajax=true&serial=<SERNO>"
 ```
 
 Examples
 --------
 
-Control projector connected to serial port `ttyUSB0` on local machine:
+Power up projector connected to serial port `ttyUSB0` on local machine:
 
 ```
-escvp21 "cu -l /dev/ttyUSB0 -s 9600"
+escvp21 "cu -l /dev/ttyUSB0 -s 9600" --power on
 ```
 
-Control projector connected to serial port `ttyUSB0` on remote machine:
+Shut down projector connected to serial port `ttyUSB0` on remote machine `conema.local`:
 
 ```
-escvp21 "ssh -e none user@machine \"cu -l /dev/ttyUSB0 -s 9600\""
+escvp21 --power off "ssh -e none projectionist@cinema.local \"cu -l /dev/ttyUSB0 -s 9600\""
 ```
 
 Example Output
 --------------
 
 ```
-$  escvp21 index.js "ssh -e none projectionist@cinema.local \"cu -l /dev/ttyUSB0 -s 9600\"" --power on
+$ escvp21 "ssh -e none projectionist@cinema.local \"cu -l /dev/ttyUSB0 -s 9600\"" --power on
 .response of SNO?: SNO=SPGF340554L
 Projector identified as EH-TW8100
 response of PWR ON:
