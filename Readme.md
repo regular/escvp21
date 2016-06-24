@@ -1,4 +1,4 @@
-Control your EPSON projector connected vio USB or serial cable to your local computer or a remote machine.
+Control your EPSON projector connected via USB or serial cable to your local computer or a remote machine.
 
 Preparation
 -----------
