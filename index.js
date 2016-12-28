@@ -14,6 +14,8 @@ program
     .usage('[options] <connect-command>')
     .option('-m, --model <model-name>',  'specify projctor model. Use \"auto\" to query REST API based on serial number. [auto]', 'auto')
     .option('-p --power <on or off>', 'Turn on or shutdown projector', /^(on|off)$/i)
+    .option('-H --hreverse <on or off>', 'Enable or disable horizontal mirroring', /^(on|off)$/i)
+    .option('-V --vreverse <on or off>', 'Enable or disable vertical mirroring', /^(on|off)$/i)
     .parse(process.argv);
 
 const command = "sh";
@@ -27,6 +29,14 @@ let queue = [
 
 if (program.power) {
     queue.push("PWR " + program.power.toUpperCase());
+}
+
+if (program.hreverse) {
+    queue.push("HREVERSE " + program.hreverse.toUpperCase());
+}
+
+if (program.vreverse) {
+    queue.push("VREVERSE " + program.vreverse.toUpperCase());
 }
 
 queue = queue.concat([
