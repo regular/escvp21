@@ -1,6 +1,6 @@
 {
   "name": "escvp21",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Control your EPSON Projector via RS232 or USB",
   "main": "index.js",
   "bin": {
